@@ -60,6 +60,12 @@
           <h3 class="font-semibold text-amber-700 mb-1">⚡ 運動特性與死點</h3>
           <p>當曲柄與連桿呈一直線時（$\theta = 0^\circ$ 或 $180^\circ$），機構處於<b>死點（Dead Center）</b>，此時滑塊位移達最大極限，速度降為 0。</p>
         </div>
+
+        <!-- 新增：生活與工程應用區塊 -->
+        <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+          <h3 class="font-semibold text-emerald-700 mb-1">🛠️ 生活與工程應用</h3>
+          <p>汽車引擎活塞、縫紉機針頭驅動、衝床設備。</p>
+        </div>
       </div>
 
       <!-- 即時運動學數據顯示 -->
@@ -158,7 +164,6 @@
     // --- 1. 初始化場景、相機與渲染器 ---
     const container = document.getElementById('webgl-container');
     const scene = new THREE.Scene();
-    // 修改為明亮的實驗室色調背景
     scene.background = new THREE.Color(0xf1f5f9); 
     scene.fog = new THREE.FogExp2(0xf1f5f9, 0.02);
 
@@ -170,7 +175,6 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    // 強化色彩渲染
     renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(renderer.domElement);
 
@@ -180,8 +184,7 @@
     controls.dampingFactor = 0.05;
     controls.target.set(3, 1, 0);
 
-    // --- 2. 升級版光源設置 (增強對比) ---
-    // 增加環境光亮度與半球光模擬真實天光
+    // --- 2. 光源設置 ---
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
@@ -197,17 +200,16 @@
     scene.add(dirLight);
 
     // --- 3. 網格底座 ---
-    // 改為適應亮色背景的灰色網格
     const gridHelper = new THREE.GridHelper(30, 30, 0x94a3b8, 0xcbd5e1);
     gridHelper.position.y = 0;
     scene.add(gridHelper);
 
-    // --- 4. 材質定義 (高對比 PBR) ---
-    const crankMaterial = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.3, roughness: 0.3 }); // 鮮豔紅
-    const rodMaterial = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.3, roughness: 0.3 });   // 鮮明藍
-    const sliderMaterial = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.2, roughness: 0.4 });// 亮橙黃
-    const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.4, roughness: 0.6 });  // 霧面鐵灰
-    const pinMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8, roughness: 0.1 });   // 亮銀軸承
+    // --- 4. 材質定義 ---
+    const crankMaterial = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.3, roughness: 0.3 }); 
+    const rodMaterial = new THREE.MeshStandardMaterial({ color: 0x3b82f6, metalness: 0.3, roughness: 0.3 });   
+    const sliderMaterial = new THREE.MeshStandardMaterial({ color: 0xf59e0b, metalness: 0.2, roughness: 0.4 });
+    const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.4, roughness: 0.6 });  
+    const pinMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, metalness: 0.8, roughness: 0.1 });   
 
     // --- 5. 建立機構模型 ---
     const mechanismGroup = new THREE.Group();
@@ -254,7 +256,7 @@
     slider.receiveShadow = true;
     mechanismGroup.add(slider);
 
-    // F. 運動軌跡線 (加深顏色以對抗亮色背景)
+    // F. 運動軌跡線
     const maxTrailPoints = 200;
     const trailPositions = new Float32Array(maxTrailPoints * 3);
     const trailGeo = new THREE.BufferGeometry();
